@@ -182,9 +182,19 @@ func (h *Handler) Handle(_ context.Context, record slog.Record) error {
 	}
 	buf.WriteString(record.Message)
 
+	if record.NumAttrs() == 0 {
+		buf.WriteByte('\n')
+
+		h.wMx.Lock()
+		defer h.wMx.Unlock()
+		_, err := h.w.Write(buf.Bytes())
+		return err
+	}
+
 	if h.attrColor != "" {
 		buf.WriteString(string(h.attrColor))
 	}
+
 	buf.WriteString("\t{")
 
 	var attrIdx int

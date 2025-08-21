@@ -20,6 +20,7 @@ func main() {
 
 	slog.SetDefault(slog.New(h))
 
+	slog.Debug("Hello, world with no attrs")
 	slog.Debug("Hello, world!", "key", "value")
 	slog.Info("Hello, world! Barb", "key", "value")
 	slog.Error("Hello, world! Fo", "key", "value")
